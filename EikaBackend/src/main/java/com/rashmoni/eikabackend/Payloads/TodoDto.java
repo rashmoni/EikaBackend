@@ -11,7 +11,6 @@ import lombok.Setter;
 
 public class TodoDto {
     private int id;
-
     private String task_name;
     private Boolean isDone;
 }
