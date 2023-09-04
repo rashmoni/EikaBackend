@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TodoService {
 
-    TodoDto createTodoItem(TodoDto todoDto);
+    TodoDto createTodoItem();
     TodoDto updateTodoItem(TodoDto todoDto,Integer todoId);
     TodoDto getTodoItemByID(Integer todoId);
     List<TodoDto> getAllTodoItems();

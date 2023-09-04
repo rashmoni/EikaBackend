@@ -5,6 +5,8 @@ import com.rashmoni.eikabackend.Exceptions.ResourceNotFoundException;
 import com.rashmoni.eikabackend.Payloads.TodoDto;
 import com.rashmoni.eikabackend.Service.TodoService;
 import com.rashmoni.eikabackend.repositories.TodoRepo;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class TodoServiceImpl implements TodoService {
 
     @Autowired
@@ -22,8 +26,14 @@ public class TodoServiceImpl implements TodoService {
     private TodoRepo todoRepo;
 
     @Override
-    public TodoDto createTodoItem(TodoDto todoDto) {
-        TodoItem todoItem = this.dtoToTodoItem(todoDto);
+    public TodoDto createTodoItem() {
+
+        int taskPredicate = todoRepo.findAll().size()+1;
+        TodoDto newTodoDto = new TodoDto();
+        newTodoDto.setTask_name("Shopping Item #" +  taskPredicate);
+        newTodoDto.setPrice(0);
+        newTodoDto.setIsDone(false);
+        TodoItem todoItem = this.dtoToTodoItem(newTodoDto);
         TodoItem savedTodoItem = this.todoRepo.save(todoItem);
         return this.TodoItemToDto(savedTodoItem);
     }
@@ -32,6 +42,7 @@ public class TodoServiceImpl implements TodoService {
     public TodoDto updateTodoItem(TodoDto todoDto, Integer todoId) {
         TodoItem todoItem = this.todoRepo.findById(todoId).orElseThrow(() -> new ResourceNotFoundException("TodoItem", "Id", todoId));
         todoItem.setTask_name(todoDto.getTask_name());
+        todoItem.setIsDone(todoDto.getIsDone());
         TodoItem updateTodoItem = this.todoRepo.save(todoItem);
         TodoDto todoDto1 = this.TodoItemToDto(updateTodoItem);
         return todoDto1;

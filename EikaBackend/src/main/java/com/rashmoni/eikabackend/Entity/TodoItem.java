@@ -15,6 +15,7 @@ public class TodoItem {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
         private String task_name;
+        private int price;
         private Boolean isDone;
 
     }
