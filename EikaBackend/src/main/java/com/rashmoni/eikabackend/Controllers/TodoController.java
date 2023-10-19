@@ -25,6 +25,12 @@ public class TodoController {
     private TodoService todoService;
 
 
+    @GetMapping("/message")
+    public String getMessage() {
+        return "Message1";
+    }
+
+
     @GetMapping("/")
     public ResponseEntity<List<TodoDto>> getAllTodo() {
         return ResponseEntity.ok(this.todoService.getAllTodoItems());
